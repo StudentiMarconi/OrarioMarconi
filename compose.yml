@@ -1,0 +1,29 @@
+services:
+  orario-marconi:
+    build: .
+    container_name: orario-marconi
+    ports:
+      - "8001:8000"
+    networks:
+      - orario-marconi-net
+    environment:
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      REDIS_PASSWORD: "${REDIS_PASSWORD:-password}"
+    restart: unless-stopped
+
+  redis:
+    image: redis:7.4-alpine
+    container_name: orario-marconi-redis
+    command: redis-server --save 20 1 --loglevel warning --requirepass ${REDIS_PASSWORD:-password}
+    networks:
+      - orario-marconi-net
+    volumes:
+      - cache:/data
+    restart: unless-stopped
+
+networks:
+  orario-marconi-net:
+
+volumes:
+  cache:
