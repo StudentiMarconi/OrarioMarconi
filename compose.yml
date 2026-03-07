@@ -1,9 +1,9 @@
 services:
   orario-marconi:
-    build: .
+    image: ghcr.io/studentimarconi/orariomarconi:latest
     container_name: orario-marconi
     ports:
-      - "8001:8000"
+      - "8000:8000"
     networks:
       - orario-marconi-net
     environment:
