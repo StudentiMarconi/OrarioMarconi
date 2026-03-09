@@ -14,8 +14,8 @@ class HourModel(BaseModel):
 
 
 class ScheduleModel(BaseModel):
-    monday: list[HourModel]
-    tuesday: list[HourModel]
-    wednesday: list[HourModel]
-    thursday: list[HourModel]
-    friday: list[HourModel]
+    monday: dict[int, HourModel]
+    tuesday: dict[int, HourModel]
+    wednesday: dict[int, HourModel]
+    thursday: dict[int, HourModel]
+    friday: dict[int, HourModel]

@@ -91,8 +91,8 @@ class ScheduleDay:
     def __setitem__(self, hour, value):
         self.hours[hour] = value
 
-    def toHourModels(self) -> list[HourModel]:
-        return [value.toHourModel() for _, value in sorted(self.hours.items())]
+    def toHourModels(self) -> dict[int, HourModel]:
+        return {key: value.toHourModel() for key, value in sorted(self.hours.items())}
 
     def __repr__(self):
         return f"<ScheduleDay hours={dict(sorted(self.hours.items()))}>"
