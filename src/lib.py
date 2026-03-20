@@ -147,9 +147,12 @@ class Class:
         return list(map(Class, cast(dict, api()).get("classes", [])))
 
     @property
-    def schedule(self) -> Schedule:
+    def schedule(self) -> Schedule | None:
         schedule = Schedule()
-        for hour in api(cls=self.name):
+        res = api(cls=self.name)
+        if not res:
+            return None
+        for hour in res:
             schedule[int(hour["giorno"])][int(hour["ora"])] = ScheduleHour(
                 room=Room(hour["aula"]),
                 cls=self,
@@ -171,9 +174,12 @@ class Room:
         return list(map(Room, cast(dict, api()).get("rooms", [])))
 
     @property
-    def schedule(self) -> Schedule:
+    def schedule(self) -> Schedule | None:
         schedule = Schedule()
-        for hour in api(room=self.name):
+        res = api(room=self.name)
+        if not res:
+            return None
+        for hour in res:
             schedule[int(hour["giorno"])][int(hour["ora"])] = ScheduleHour(
                 room=self,
                 cls=Class(hour["classe"]),

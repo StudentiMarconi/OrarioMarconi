@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 
 from .lib import Class, Room
 from .responses import GetResponse, ScheduleModel
@@ -16,9 +16,15 @@ def get() -> GetResponse:
 
 @app.get("/class/{cls}")
 def get_class(cls: str) -> ScheduleModel:
-    return Class(cls).schedule.toScheduleModel()
+    schedule = Class(cls).schedule
+    if schedule is None:
+        raise HTTPException(404, detail=f"Class {cls} not found")
+    return schedule.toScheduleModel()
 
 
 @app.get("/room/{room}")
 def get_room(room: str) -> ScheduleModel:
-    return Room(room).schedule.toScheduleModel()
+    schedule = Room(room).schedule
+    if schedule is None:
+        raise HTTPException(404, detail=f"Room {room} not found")
+    return schedule.toScheduleModel()
